@@ -1,4 +1,4 @@
-from flask import Flask,render_template
+from flask import Flask
 from flask.ext.bootstrap import Bootstrap
 from flask.ext.mail import Mail
 from flask.ext.moment import Moment
@@ -7,8 +7,8 @@ from config import config
 
 bootstrap = Bootstrap()
 mail = Mail()
-moment Moment()
-db = SQLALchemy()
+moment = Moment()
+db = SQLAlchemy()
 
 def create_app(config_name):
 	app = Flask(__name__)
@@ -21,7 +21,11 @@ def create_app(config_name):
 	db.init_app(app)
 
 	#附加路由和自定义的错误页面
-	from .main import main as main_blueprintapp.register_blueprint(main_blueprint)
+	from .main import main as main_blueprint
+	app.register_blueprint(main_blueprint)
+
+	from .auth import auth as auth_blueprint
+	app.register_blueprint(auth_blueprint,url_prefix='/auth')
 
 	return app
 
